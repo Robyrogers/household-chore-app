@@ -47,6 +47,15 @@ permissions:
     resource: "git show*"
     effect: allow
   - action: shell
+    resource: "git check-ignore*"
+    effect: allow
+  - action: shell
+    resource: "git ls-files*"
+    effect: allow
+  - action: shell
+    resource: "git rev-parse*"
+    effect: allow
+  - action: shell
     resource: "git add *"
     effect: allow
   - action: shell
