@@ -12,6 +12,7 @@ still open and should be raised as a decision issue before implementation.
 | DEC-05 | Timezones | Store UTC, display in one household timezone |
 | DEC-06 | Categories | Free text with autocomplete and normalization |
 | DEC-07 | Dependencies | Agreed set approved; anything new needs a separate ask |
+| DEC-08 | TypeScript ESLint tooling | `typescript-eslint` approved as root dev tooling |
 
 ## DEC-01 — Root admin bootstrap
 
@@ -82,6 +83,17 @@ The following are approved for use as each phase needs them:
   `concurrently`, `typescript` and type packages
 
 Anything outside this list requires a separate approval request per `AGENTS.md`.
+
+## DEC-08 — TypeScript ESLint tooling
+
+`typescript-eslint` is approved as a single root devDependency, providing the
+flat-config helper, parser, and plugin. ESLint core cannot parse TypeScript, so
+DEC-07's `eslint` entry alone could not lint the codebase.
+
+Consequences: `typescript-eslint` may appear in the root `devDependencies` and in
+the flat config. No other ESLint plugins are approved; each needs its own request.
+
+Approved by the project owner after issue #54.
 
 ## Outstanding decisions
 
