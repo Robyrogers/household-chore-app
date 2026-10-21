@@ -120,8 +120,9 @@ git switch main
 git pull --ff-only
 git merge --no-ff issue/<n>-<slug> -m "merge: #<n> <title>"
 npm ci
-npm run typecheck
-npm test
+npm run --if-present typecheck
+npm run --if-present lint
+npm run --if-present test
 git push
 gh issue close <n> --reason completed
 git worktree remove .worktrees/<n> --force
@@ -130,11 +131,16 @@ git branch -d issue/<n>-<slug>
 
 Rules:
 
+- Use `--if-present` on every script check. Before the root scripts exist (#4),
+  these are no-ops and the issue's Verification commands are the real gate.
 - Run the checks **after each merge**, before pushing. Two individually verified
   branches can still break each other.
 - If checks fail: `git reset --hard ORIG_HEAD`, comment on the issue with the
   failing output, set `status:blocked`, leave the branch intact, and continue with
   the next issue.
+- If a check is missing rather than failing — a script that does not exist yet —
+  do not record a defect against the issue. Record it as a configuration gap in
+  the pass report and treat the check as skipped.
 - If the merge conflicts: `git merge --abort`, comment with the conflicting paths,
   set `status:blocked`, leave the branch intact, and continue. A conflict means
   the parallel-safety check was wrong — record it in the pass report.
@@ -168,6 +174,7 @@ Dev:     #<n> implemented, #<n> blocked
 QA:      #<n> passed, #<n> failed, #<n> blocked
 Merged:  #<n>, #<n>
 Blocked: #<n> <reason>
+Config gaps: none | <missing script, permission, or tool>
 Next pass ready: <yes | no — reason>
 ```
 
