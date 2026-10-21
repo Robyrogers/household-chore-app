@@ -34,19 +34,24 @@ local copy of the backlog; groom and split issues in the tracker itself.
 | Label | Meaning |
 | --- | --- |
 | `status:backlog` | Not groomed |
-| `status:ready` | Groomed, safe to implement |
+| `status:ready` | Groomed, or failed QA; waiting for a developer |
 | `status:in-progress` | Claimed by a developer agent |
-| `status:ready-for-test` | Implemented on a branch, awaiting verification |
-| `status:blocked` | Waiting on a decision or dependency |
+| `status:ready-for-test` | Implemented on a branch, waiting for QA |
+| `status:testing` | Claimed by QA, verification in progress |
+| `status:ready-for-merge` | Verified, waiting for a human to merge |
+| `status:blocked` | Waiting on a decision, dependency, or rerun |
 
 - Agents groom and implement **one issue per invocation**, in ascending issue
   order, skipping anything not in the required state.
+- QA verifies as a **black box**: it reads the issue, spec, and verification
+  commands, but never the implementation under `apps/`. It reports behaviour it
+  observed, not code it read.
 - Implementation happens in a worktree: `git worktree add .worktrees/<n> -b issue/<n>-<slug> main`.
   Only one issue per worktree, and `.worktrees/` is gitignored.
 - Agents push only to `issue/<n>-<slug>`. **Never merge to `main`** and never push
   to it; a human merges after review.
-- Agents do not close issues. They move the label and report; verification closes
-  it.
+- Agents do not close issues. They move the label and report; a human merges and
+  closes after the issue reaches `status:ready-for-merge`.
 
 ## Prerequisites
 
