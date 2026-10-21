@@ -1,0 +1,13 @@
+{
+  "name": "household-chore-app",
+  "private": true,
+  "workspaces": [
+    "apps/api",
+    "apps/web"
+  ],
+  "engines": {
+    "node": ">=20",
+    "npm": ">=10"
+  },
+  "scripts": {}
+}
