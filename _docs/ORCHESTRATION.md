@@ -75,17 +75,21 @@ Build the candidate set:
 2. For each, read `Blocked by` from the body. Every referenced issue must be
    **closed** (merged). If any is open, the candidate is not eligible this pass.
 3. Read the `Files expected to change` section and the `Parallel-safe` note.
-4. Drop any candidate whose section is missing, or whose `Parallel-safe` is `no`.
+4. A candidate with a missing file section is **serial-only**, never dropped: it
+   can still run alone.
 
 Then pick at most **two** candidates that are disjoint:
 
 - neither lists the other in `Blocked by` / `Blocks`, transitively
 - their file lists do not intersect
 - neither touches `package.json`, `package-lock.json`, `tsconfig.base.json`,
-  `AGENTS.md`, or `.gitignore`
-- both are eligible per steps 1–4
+  `AGENTS.md`, or `.gitignore` **for an issue that is still unmerged** — a shared
+  root file owned only by merged issues is free
+- if either says `Parallel-safe: no`, prefer to run it alone; pair it only when
+  the file lists are clearly disjoint
 
-If only one qualifies, run one. If none qualify, skip the phase.
+Never drop an eligible issue because it is not parallel-safe. If only one
+candidate qualifies, run one. If none qualify, skip the phase.
 
 ## Phase 3 — Dev and QA handoff
 
