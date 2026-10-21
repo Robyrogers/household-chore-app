@@ -108,6 +108,12 @@ groomed it.
 10. **Never remove issues silently.** Do not close, delete, or strip scope from
     an existing issue without explicit confirmation. Splitting is allowed;
     deleting is not.
+11. **One owner per artefact.** Never groom two open issues that would modify the
+    same file or artefact. If overlap is unavoidable, the later issue gets
+    `Blocked by: #<earlier>` instead of being groomed as independent work. Root
+    files (`package.json`, `package-lock.json`, `tsconfig.base.json`,
+    `AGENTS.md`, `.gitignore`) may have only one unmerged owner at a time. This
+    is what prevents merge conflicts.
 
 # Context to read first
 
@@ -123,14 +129,17 @@ Read these before touching an issue:
 1. **Select.** Use the issue named by the caller, or the lowest-numbered open
    issue with `status:backlog`. If none exist, report `nothing-to-do` and stop.
 2. **Recon.** Read the issue, its labels, referenced issues, and the spec
-   sections it touches. Check for overlap with other backlog issues; if another
-   issue already covers part of this scope, note it instead of duplicating it.
+   sections it touches. Then run the overlap scan: list every open issue with its
+   `Files expected to change` section and compare. If another issue already owns
+   part of this scope or any of these files, add a dependency edge instead of
+   duplicating it — the later issue is `Blocked by` the earlier one.
 3. **Check readiness of the ground.** Are the dependencies real issues? Is a
    blocking decision still open in `_docs/DECISIONS.md`? If the task cannot be
    specified without a decision, follow the decision protocol and park it.
 4. **Draft.** Fill every section of the template, including Verification
-   commands. Cite the spec section behind each scope bullet. Anything the spec is
-   silent on goes under Notes as an assumption or an open question.
+   commands and Files expected to change. Cite the spec section behind each scope
+   bullet. Add `Parallel-safe: yes|no` with a one-line reason to Notes. Anything
+   the spec is silent on goes under Notes as an assumption or an open question.
 5. **Test the draft.** Apply the Definition of Ready and the edge-case checklist.
    If it fails, fix it or escalate.
 6. **Write.** `gh issue edit <n> --body-file _docs/drafts/issue-<n>.md`, then swap
@@ -156,6 +165,9 @@ Do not apply `status:ready` unless all of these are true:
 - [ ] No unresolved question remains in the body.
 - [ ] Verification commands list every command needed to prove the criteria, and
       each is runnable by the implementing agent.
+- [ ] Files expected to change is present, and intersects no other open issue
+      unless a dependency edge was added.
+- [ ] Notes records `Parallel-safe: yes|no` with a reason.
 - [ ] The work fits a single pull request; otherwise it is split.
 - [ ] The task does not contradict `_docs/DECISIONS.md`.
 
@@ -207,6 +219,7 @@ Changed:
   - <section>: <what changed>
 Created:
   - #<n> [<ID>-S<n>] <title>
+Parallel-safe: yes | no — <reason>
 Decisions: (empty if none)
   - question: <the decision needed>
     options: <option A | option B>

@@ -22,6 +22,9 @@ grooming step; issues are created as plain titles with a one-line description.
 ## Scope
 -
 
+## Files expected to change
+- 
+
 ## Out of scope
 -
 
@@ -70,6 +73,27 @@ work is finished. Vague bullets become undiscussable acceptance criteria later.
 > **Poor:**
 > - PIN reset stuff
 > - Backend changes
+
+### Files expected to change
+
+*Best-effort list of the files this task will create or modify, one per line,
+with `(new)` or `(modified)`.*
+
+The orchestrator uses this to decide whether two issues can be implemented in
+parallel. Two issues whose file lists intersect cannot run at the same time, and
+neither can two issues that both touch a shared root file (`package.json`,
+`package-lock.json`, `tsconfig.base.json`, `AGENTS.md`, `.gitignore`).
+
+Guess honestly and mark uncertainty. A missing section means the issue is always
+scheduled serially, which is safe but slow.
+
+> **Good:**
+> - `apps/api/src/db/index.ts` (new)
+> - `apps/api/migrations/001_init.sql` (new)
+> - `package.json` (modified)
+>
+> **Poor:**
+> - some API files
 
 ### Out of scope
 
@@ -163,6 +187,10 @@ follow-up migrations.
 - `updated_at` on `users`, `tasks`, and `subtasks`
 - `CANCELLED` added to the task status values
 
+## Files expected to change
+- `apps/api/migrations/002_schema_gaps.sql` (new)
+- `apps/api/src/db/schema.ts` (modified)
+
 ## Out of scope
 - Backfilling existing data — no production database exists yet
 - Changes to the migration runner itself (FND-07)
@@ -189,6 +217,7 @@ follow-up migrations.
 - Spec: `_docs/project_specification.md` §3
 - Occurrences are materialized rather than virtual (DEC-02)
 - Store the timezone as an IANA name, e.g. `Asia/Kathmandu`
+- Parallel-safe: no — migration 001 (#8) must be merged first
 ```
 
 ---

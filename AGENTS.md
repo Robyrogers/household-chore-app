@@ -23,6 +23,7 @@ household-chore-app/
 - `_docs/project_specification.md` — product specification
 - `_docs/DECISIONS.md` — locked decisions; do not contradict them silently
 - `_docs/TASK_TEMPLATE.md` — grooming template for issues
+- `_docs/ORCHESTRATION.md` — how the main session runs a development pass
 
 ## Task tracking
 
