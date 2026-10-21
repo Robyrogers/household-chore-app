@@ -1,0 +1,20 @@
+# Local agent scratch files
+_docs/drafts/
+
+# Node
+node_modules/
+dist/
+*.log
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# OS
+.DS_Store
