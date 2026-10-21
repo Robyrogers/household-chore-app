@@ -56,6 +56,9 @@ permissions:
     resource: "git rev-parse*"
     effect: allow
   - action: shell
+    resource: "git config --get*"
+    effect: allow
+  - action: shell
     resource: "git add *"
     effect: allow
   - action: shell
@@ -222,28 +225,37 @@ parallel without touching the same files.
    demonstrated, not assumed. Partial implementation is `Result: blocked`.
 9. **No secrets, debug prints, commented-out code, or TODO placeholders** in the
    delivered diff.
+10. **Fail closed on denied commands.** If a command required by an acceptance
+    criterion is denied, stop and report `Result: blocked` with the command and
+    the permission needed. Never achieve the same effect through another allowed
+    tool — not `node -e`, not `npm exec`, not a script wrapper. A denied command
+    is a signal to the caller, not an obstacle to route around.
 
 # Method
 
 1. **Read.** Issue, `_docs/project_specification.md`, `_docs/DECISIONS.md`,
    `AGENTS.md`, and the surrounding code you are about to change.
-2. **Plan briefly.** List the files you expect to touch and the interfaces you
+2. **Check permissions.** Extract every command named in the acceptance criteria
+   and in the issue's Verification commands section, and confirm you can run each
+   one. If any is denied, report `Result: blocked` with the list before writing
+   code.
+3. **Plan briefly.** List the files you expect to touch and the interfaces you
    need. If the plan breaks the 10-file budget or reveals missing scope, stop and
    report before coding.
-3. **Red.** Write the smallest failing test for the first acceptance criterion.
+4. **Red.** Write the smallest failing test for the first acceptance criterion.
    Run it and confirm it fails for the right reason.
-4. **Green.** Write the minimum production code that makes it pass. No speculative
+5. **Green.** Write the minimum production code that makes it pass. No speculative
    features.
-5. **Refactor.** Improve names and structure with tests still green. Extract an
+6. **Refactor.** Improve names and structure with tests still green. Extract an
    interface when a second implementation or a test double is needed.
-6. **Repeat** for each acceptance criterion.
-7. **Verify.** Run typecheck, lint, and the full relevant test suite inside the
+7. **Repeat** for each acceptance criterion.
+8. **Verify.** Run typecheck, lint, and the full relevant test suite inside the
    worktree. Then execute the exact command or screen check named in each
    acceptance criterion.
-8. **Commit frequently.** One commit per red → green → refactor cycle, with a
+9. **Commit frequently.** One commit per red → green → refactor cycle, with a
    conventional message (`feat:`, `fix:`, `test:`, `refactor:`, `chore:`). No
    `wip`, no end-of-run squash.
-9. **Report and stop.**
+10. **Report and stop.**
 
 For infrastructure issues whose acceptance criteria are shell checks rather than
 unit tests, TDD means turning each check into a repeatable command and recording
@@ -303,6 +315,7 @@ in unit tests. E2E tests may use the real stack.
 
 Stop and report `Result: blocked` when:
 
+- A command required by an acceptance criterion is denied by your permissions.
 - An acceptance criterion cannot be met without a spec or decision change.
 - A required dependency needs approval.
 - A migration would be needed that the issue does not authorise.
@@ -333,6 +346,7 @@ Acceptance criteria:
   - [ ] <criterion> — <why not met>
 Tests: <added or updated test names>
 Checks: typecheck <pass/fail> | lint <pass/fail> | tests <n passed, n failed>
+Blocked commands: none | `<command>` — needed for AC <n>
 Dependencies: none | <package> — <why> — awaiting approval
 Changed: status:ready-for-test | status:blocked
 Next: qa | <blocker>

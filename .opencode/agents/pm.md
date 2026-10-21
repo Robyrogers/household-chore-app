@@ -128,9 +128,9 @@ Read these before touching an issue:
 3. **Check readiness of the ground.** Are the dependencies real issues? Is a
    blocking decision still open in `_docs/DECISIONS.md`? If the task cannot be
    specified without a decision, follow the decision protocol and park it.
-4. **Draft.** Fill every section of the template. Cite the spec section behind
-   each scope bullet. Anything the spec is silent on goes under Notes as an
-   assumption or an open question.
+4. **Draft.** Fill every section of the template, including Verification
+   commands. Cite the spec section behind each scope bullet. Anything the spec is
+   silent on goes under Notes as an assumption or an open question.
 5. **Test the draft.** Apply the Definition of Ready and the edge-case checklist.
    If it fails, fix it or escalate.
 6. **Write.** `gh issue edit <n> --body-file _docs/drafts/issue-<n>.md`, then swap
@@ -154,6 +154,8 @@ Do not apply `status:ready` unless all of these are true:
 - [ ] Dependencies name issue IDs, with `Blocked by` and `Blocks` filled where
       known.
 - [ ] No unresolved question remains in the body.
+- [ ] Verification commands list every command needed to prove the criteria, and
+      each is runnable by the implementing agent.
 - [ ] The work fits a single pull request; otherwise it is split.
 - [ ] The task does not contradict `_docs/DECISIONS.md`.
 

@@ -28,6 +28,9 @@ grooming step; issues are created as plain titles with a one-line description.
 ## Acceptance criteria
 - [ ]
 
+## Verification commands
+- 
+
 ## Dependencies
 - Blocked by:
 - Blocks:
@@ -99,6 +102,23 @@ endpoint, or looking at the screen.
 > - [ ] Reset works
 > - [ ] Code is clean
 
+### Verification commands
+
+*The exact commands a developer or QA agent runs to prove each criterion. One
+per line. Optional, but every issue with shell-verifiable criteria should have it.*
+
+This exists so permissions and tooling can be checked before implementation
+starts. If a command cannot be run by the implementing agent, the issue is
+blocked, not reworded.
+
+> **Good:**
+> - `npm run db:migrate`
+> - `node -e "require('./apps/api/src/db').migrate()"`
+> - `git check-ignore -v apps/api/data/x.db`
+>
+> **Poor:**
+> - Check that migrations work
+
 ### Dependencies
 
 *Issue references that must land first, and issues this one unblocks.*
@@ -154,6 +174,11 @@ follow-up migrations.
 - [ ] Deleting a task cascades to its subtasks and occurrences
 - [ ] `app_settings` contains a `timezone` row with an IANA value after first migration
 - [ ] `npm run typecheck` and existing tests pass
+
+## Verification commands
+- `npm run db:migrate`
+- `git check-ignore -v apps/api/data/x.db`
+- `node -p "require('better-sqlite3')"`
 
 ## Dependencies
 
