@@ -29,6 +29,25 @@ household-chore-app/
 GitHub issues are the single source of truth for work. Do not create or maintain a
 local copy of the backlog; groom and split issues in the tracker itself.
 
+## Agent workflow
+
+| Label | Meaning |
+| --- | --- |
+| `status:backlog` | Not groomed |
+| `status:ready` | Groomed, safe to implement |
+| `status:in-progress` | Claimed by a developer agent |
+| `status:ready-for-test` | Implemented on a branch, awaiting verification |
+| `status:blocked` | Waiting on a decision or dependency |
+
+- Agents groom and implement **one issue per invocation**, in ascending issue
+  order, skipping anything not in the required state.
+- Implementation happens in a worktree: `git worktree add .worktrees/<n> -b issue/<n>-<slug> main`.
+  Only one issue per worktree, and `.worktrees/` is gitignored.
+- Agents push only to `issue/<n>-<slug>`. **Never merge to `main`** and never push
+  to it; a human merges after review.
+- Agents do not close issues. They move the label and report; verification closes
+  it.
+
 ## Prerequisites
 
 - Node.js 20 LTS or newer

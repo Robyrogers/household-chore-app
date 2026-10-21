@@ -1,6 +1,9 @@
 # Local agent scratch files
 _docs/drafts/
 
+# Agent worktrees
+.worktrees/
+
 # Node
 node_modules/
 dist/
