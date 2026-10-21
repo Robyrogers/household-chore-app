@@ -15,8 +15,15 @@ household-chore-app/
 ├── apps/
 │   ├── api/          # Fastify API — owns its own dependencies
 │   └── web/          # React + Vite SPA — owns its own dependencies
-└── _docs/            # specs and decisions
+└── _docs/            # specs, backlog, decisions, templates
 ```
+
+## Docs
+
+- `_docs/project_specification.md` — product specification
+- `_docs/BACKLOG.md` — tracked tasks, mirroring the GitHub issues
+- `_docs/DECISIONS.md` — locked decisions; do not contradict them silently
+- `_docs/TASK_TEMPLATE.md` — grooming template for issues
 
 ## Prerequisites
 
