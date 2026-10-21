@@ -41,6 +41,12 @@ permissions:
     resource: "git fetch*"
     effect: allow
   - action: shell
+    resource: "git ls-files*"
+    effect: allow
+  - action: shell
+    resource: "git check-ignore*"
+    effect: allow
+  - action: shell
     resource: "npm ci*"
     effect: allow
   - action: shell
@@ -51,6 +57,12 @@ permissions:
     effect: allow
   - action: shell
     resource: "npm test*"
+    effect: allow
+  - action: shell
+    resource: "npm pkg get*"
+    effect: allow
+  - action: shell
+    resource: "node *"
     effect: allow
   - action: shell
     resource: "npx vitest*"
