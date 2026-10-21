@@ -53,6 +53,12 @@ permissions:
     resource: "npm install"
     effect: allow
   - action: shell
+    resource: "npm ls*"
+    effect: allow
+  - action: shell
+    resource: "test *"
+    effect: allow
+  - action: shell
     resource: "npm run *"
     effect: allow
   - action: shell

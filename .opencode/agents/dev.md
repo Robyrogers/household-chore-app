@@ -101,6 +101,12 @@ permissions:
     resource: "npm install *"
     effect: ask
   - action: shell
+    resource: "npm ls*"
+    effect: allow
+  - action: shell
+    resource: "test *"
+    effect: allow
+  - action: shell
     resource: "npm add *"
     effect: ask
   - action: shell
@@ -237,8 +243,11 @@ parallel without touching the same files.
    `AGENTS.md`, and the surrounding code you are about to change.
 2. **Check permissions.** Extract every command named in the acceptance criteria
    and in the issue's Verification commands section, and confirm you can run each
-   one. If any is denied, report `Result: blocked` with the list before writing
-   code.
+   one. A denial for a command that is *not* required by the issue is expected and
+   is not a blocker — `pwd`, `ls`, and arbitrary shell commands are intentionally
+   outside your allowlist. Test the required commands themselves before
+   concluding anything. Report `Result: blocked` only when a required command is
+   denied, naming that command.
 3. **Plan briefly.** List the files you expect to touch and the interfaces you
    need. If the plan breaks the 10-file budget or reveals missing scope, stop and
    report before coding.
