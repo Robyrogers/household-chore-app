@@ -41,6 +41,12 @@ permissions:
     resource: "git fetch*"
     effect: allow
   - action: shell
+    resource: "git diff --quiet*"
+    effect: allow
+  - action: shell
+    resource: "git diff --exit-code*"
+    effect: allow
+  - action: shell
     resource: "git ls-files*"
     effect: allow
   - action: shell
@@ -150,8 +156,9 @@ Before testing:
 3. Read the issue, `_docs/project_specification.md`, `_docs/DECISIONS.md`,
    `AGENTS.md`, and `_docs/TASK_TEMPLATE.md`.
 4. **Do not read implementation or test files.** Never open anything under
-   `apps/`. Do not use `git show`, `git diff`, or `git log -p` to inspect the
-   change. You are testing a product, not reviewing a diff.
+   `apps/`. Do not use `git show`, `git log -p`, or a plain `git diff` to inspect
+   the change. `git diff --quiet` and `git diff --exit-code` are permitted because
+   they report only whether a file changed, never its contents.
 
 # Claim
 
