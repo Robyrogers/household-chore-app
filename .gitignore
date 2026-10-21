@@ -18,6 +18,16 @@ dist/
 *.db
 *.db-shm
 *.db-wal
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# Build and test output
+coverage/
+playwright-report/
+test-results/
+.vite/
+*.tsbuildinfo
 
 # OS
 .DS_Store
